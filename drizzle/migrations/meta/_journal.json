@@ -8,6 +8,20 @@
       "when": 1710913530850,
       "tag": "0000_clear_saracen",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1710914987554,
+      "tag": "0001_eager_gladiator",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1710915006819,
+      "tag": "0002_youthful_titanium_man",
+      "breakpoints": true
     }
   ]
 }
