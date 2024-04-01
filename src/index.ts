@@ -104,7 +104,9 @@ app.post('/summarize', async (c) => {
     where: (contents, { eq }) => eq(contents.url, url),
   })
   if (existing) {
-    return c.json({ error: 'already summarized' }, 400)
+    return c.json({
+      content: existing,
+    })
   }
 
   const user = await db.query.users.findFirst({
@@ -123,7 +125,12 @@ app.post('/summarize', async (c) => {
       registeredAt: new Date(),
       registeredBy: user?.id,
     }).execute()
-    return c.json(r)
+    return c.json(
+      {
+        content: r.results[0],
+      },
+      201
+    )
   } else {
     return c.json({ error: `failed to summarize. errorCode: ${result.type}` }, 400)
   }
