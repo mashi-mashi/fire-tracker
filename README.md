@@ -17,6 +17,6 @@ npx drizzle-kit generate:sqlite
 npx wrangler d1 migrations apply fire --local
 ```
 
-```DB Apply(DEV)
-npx wrangler d1 migrations apply fire
+```DB Apply(PRODUCTION)
+npx wrangler d1 migrations apply fire --remote
 ```

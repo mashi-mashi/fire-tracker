@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `users_ip_unique` ON `users` (`ip`);

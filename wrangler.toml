@@ -16,5 +16,5 @@ main = "src/index.ts"
 [[d1_databases]]
 binding = "DB"                                       # i.e. available in your Worker on env.DB
 database_name = "fire"
-database_id = "a3846bf1-d4c7-472a-a30e-f97d614d2178"
+database_id = "3a056337-d5fc-4e80-ab4f-6ea00b436336"
 migrations_dir = "drizzle/migrations"
