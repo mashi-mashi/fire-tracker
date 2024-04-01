@@ -1,4 +1,7 @@
 import { Hono } from 'hono'
+import { logger } from 'hono/logger'
+import { prettyJSON } from 'hono/pretty-json'
+import { secureHeaders } from 'hono/secure-headers'
 import { getDB } from './db'
 import { getOpenAI, summarizeWebPageWithStructuredJSON } from './openai'
 import { contents, users } from './schema'
@@ -9,6 +12,15 @@ export type AppBindings = {
 }
 
 const app = new Hono<{ Bindings: AppBindings }>()
+app.use(logger())
+app.use(prettyJSON())
+app.use(secureHeaders())
+
+app.use(async (c, next) => {
+  const ip = c.req.header('CF-Connecting-IP')
+  console.log(`[${new Date().toISOString()}] ${c.req.method} ${c.req.url} from ${ip}`)
+  await next()
+})
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')
@@ -103,6 +115,7 @@ app.post('/summarize', async (c) => {
   const existing = await db.query.contents.findFirst({
     where: (contents, { eq }) => eq(contents.url, url),
   })
+  console.log({ existing })
   if (existing) {
     return c.json({
       content: existing,
@@ -121,7 +134,7 @@ app.post('/summarize', async (c) => {
       url: result.url,
       title: result.title,
       summary: result.summary,
-      tags: result.tags.join(','),
+      tags: result.tags.join(","),
       registeredAt: new Date(),
       registeredBy: user?.id,
     }).execute()
