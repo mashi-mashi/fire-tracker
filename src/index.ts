@@ -5,11 +5,14 @@ import { secureHeaders } from 'hono/secure-headers'
 import { getDB } from './db'
 import { getOpenAI, summarizeWebPageWithStructuredJSON } from './openai'
 import { contents, users } from './schema'
+import puppeteer from "@cloudflare/puppeteer";
 
 export type AppBindings = {
   DB: D1Database
   OPENAI_API_KEY: string
+  BROWSER: Fetcher
 }
+
 
 const app = new Hono<{ Bindings: AppBindings }>()
 app.use(logger())
@@ -96,6 +99,21 @@ app.get('/contents/search', async (c) => {
     return c.json({ error: 'content not found' }, 404)
   }
   return c.json(r)
+})
+
+app.get('/browse', async (c) => {
+  const url = c.req.query('url')
+  if (!url) {
+    return c.json({ error: 'url is required' }, 400)
+  }
+  console.log('c.env.BROWSER', c.env.BROWSER, c.env)
+  const browser = await puppeteer.launch(c.env.BROWSER as any)
+  const page = await browser.newPage()
+  await page.goto(url)
+  const metrics = await page.metrics()
+  await browser.close()
+
+  return Response.json(metrics)
 })
 
 /**
