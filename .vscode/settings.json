@@ -1,0 +1,21 @@
+{
+  "biome.enabled": false,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  }
+  // "editor.codeActionsOnSave": {
+  //   "quickfix.biome": "explicit",
+  //   "source.organizeImports.biome": "explicit"
+  // }
+}
