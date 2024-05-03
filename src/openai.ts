@@ -124,7 +124,3 @@ const safeParse = (url: string, json?: string): {
   }
 
 }
-
-// 実行例
-// const url = "https://www3.nhk.or.jp/news/html/20240324/k10014401381000.html";
-// summarizeWebPageWithStructuredJSON(url);
