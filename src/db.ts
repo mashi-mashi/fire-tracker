@@ -4,5 +4,5 @@ import { AppBindings } from ".";
 import * as schema from './schema';
 
 export const getDB = (context: Context<{ Bindings: AppBindings }, any, any>) => {
-    return drizzle(context.env.DB, { schema });
+    return drizzle(context.env.DB, { schema, logger: true });
 }

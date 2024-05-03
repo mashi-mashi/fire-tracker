@@ -41,3 +41,12 @@ export const contents = sqliteTable('contents', {
         sql`(strftime('%s', 'now'))`
     ),
 })
+
+export const favorites = sqliteTable('favorites', {
+    id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+    userId: integer("user_id").references(() => users.id),
+    contentId: integer("content_id").references(() => contents.id),
+    createdAt: integer("created_at", { mode: "timestamp" }).default(
+        sql`(strftime('%s', 'now'))`
+    ),
+})

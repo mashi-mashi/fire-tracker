@@ -4,8 +4,9 @@ import { prettyJSON } from 'hono/pretty-json'
 import { secureHeaders } from 'hono/secure-headers'
 import { getDB } from './db'
 import { getOpenAI, summarizeWebPageWithStructuredJSON } from './openai'
-import { contents, users } from './schema'
+import { contents, favorites, users } from './schema'
 import puppeteer from "@cloudflare/puppeteer";
+import { eq } from 'drizzle-orm'
 
 export type AppBindings = {
   DB: D1Database
@@ -167,5 +168,43 @@ app.post('/summarize', async (c) => {
   }
 })
 
+app.get('/play', async (c) => {
+  const db = getDB(c)
+  const userId = 1;
+  // const ip = c.req.header('CF-Connecting-IP')
+  // if (!ip) {
+  //   return c.json({ error: 'ip not found' }, 400)
+  // }
+
+  const r = await db.select().from(users).leftJoin(favorites, eq(users.id, favorites.id)).where(
+    eq(users.id, 1)
+  ).execute()
+
+  return c.json(r)
+})
+
+app.get('/play2', async (c) => {
+  const db = getDB(c)
+  const userId = 1;
+
+  await db.insert(favorites).values(
+    {
+      userId: userId,
+      // contentId: Math.random() * 1000,
+    }
+  )
+
+  const r = await db.select().from(users).leftJoin(favorites, eq(users.id, favorites.id)).where(
+    eq(users.id, userId)
+  ).leftJoin(
+    contents,
+    eq(favorites.contentId, contents.id)
+  ).execute()
+
+
+  return c.json(r)
+})
+
 
 export default app
+

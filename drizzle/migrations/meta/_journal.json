@@ -36,6 +36,13 @@
       "when": 1711451140521,
       "tag": "0004_careful_masque",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1714484277951,
+      "tag": "0005_giant_tigra",
+      "breakpoints": true
     }
   ]
 }
