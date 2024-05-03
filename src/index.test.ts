@@ -1,5 +1,5 @@
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { users } from './schema';
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { users } from "./schema";
 
 import type { UnstableDevWorker } from "wrangler";
 import { getPlatformProxy, unstable_dev } from "wrangler";
@@ -7,40 +7,40 @@ import app from "./index";
 const { env } = await getPlatformProxy();
 
 describe("Worker", () => {
-  let worker: UnstableDevWorker;
+	let worker: UnstableDevWorker;
 
-  beforeAll(async () => {
-    worker = await unstable_dev("./src/index.ts", {
-      experimental: { disableExperimentalWarning: true },
-    });
-  });
+	beforeAll(async () => {
+		worker = await unstable_dev("./src/index.ts", {
+			experimental: { disableExperimentalWarning: true },
+		});
+	});
 
-  afterAll(async () => {
-    await worker.stop();
-  });
+	afterAll(async () => {
+		await worker.stop();
+	});
 
-  it("1", () => {
-    expect(1).toBe(1);
-  })
+	it("1", () => {
+		expect(1).toBe(1);
+	});
 
-  // it("should return Hello World", async () => {
-  //   const res = await app.request(
-  //     "/users",
-  //     {
-  //       method: "GET",
-  //       headers: { "Content-Type": "application/json" },
-  //     },
-  //     // d1のenvをappの第3引数に渡すと、app内のenv.DBにd1のenvがバインドされる
-  //     env
-  //   );
+	// it("should return Hello World", async () => {
+	//   const res = await app.request(
+	//     "/users",
+	//     {
+	//       method: "GET",
+	//       headers: { "Content-Type": "application/json" },
+	//     },
+	//     // d1のenvをappの第3引数に渡すと、app内のenv.DBにd1のenvがバインドされる
+	//     env
+	//   );
 
-  //   console.log(await res.json())
+	//   console.log(await res.json())
 
-  //   // if (resp) {
-  //   //   const text = await resp.text();
-  //   //   expect(text).toMatchInlineSnapshot(`"Hello World!"`);
-  //   // }
-  // });
+	//   // if (resp) {
+	//   //   const text = await resp.text();
+	//   //   expect(text).toMatchInlineSnapshot(`"Hello World!"`);
+	//   // }
+	// });
 });
 
 // it('storage test', async () => {
