@@ -6,7 +6,7 @@ import { users } from "../schema";
 const userRoute = new Hono<{ Bindings: AppBindings }>().basePath("/users");
 
 userRoute.get("/", async (c) => {
-	const db = getDB(c);
+	const db = getDB(c.env);
 	const r = await db.select().from(users).execute();
 	return c.json(r);
 });
@@ -16,7 +16,7 @@ userRoute.get("/:id", async (c) => {
 	if (Number.isNaN(userId)) {
 		return c.json({ error: "invalid user id" }, 400);
 	}
-	const db = getDB(c);
+	const db = getDB(c.env);
 	const r = await db.query.users.findFirst({
 		where: (users, { eq }) => eq(users.id, userId),
 	});
@@ -32,7 +32,7 @@ userRoute.post("", async (c) => {
 		return c.json({ error: "username is required" }, 400);
 	}
 	const ip = c.req.header("CF-Connecting-IP");
-	const db = getDB(c);
+	const db = getDB(c.env);
 	const r = await db
 		.insert(users)
 		.values({
@@ -49,7 +49,7 @@ userRoute.get("/ip", async (c) => {
 		return c.json({ error: "ip not found" }, 400);
 	}
 
-	const db = getDB(c);
+	const db = getDB(c.env);
 	const r = await db.query.users.findFirst({
 		where: (users, { eq }) => eq(users.ip, ip),
 	});

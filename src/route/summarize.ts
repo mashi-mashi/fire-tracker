@@ -18,7 +18,7 @@ const summarizeRoute = new Hono<{ Bindings: AppBindings }>()
 			url: string;
 		}>();
 		const ip = c.req.header("CF-Connecting-IP");
-		const db = getDB(c);
+		const db = getDB(c.env);
 
 		const existing = await db.query.contents.findFirst({
 			where: (contents, { eq }) => eq(contents.url, url),

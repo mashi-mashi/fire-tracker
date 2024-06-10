@@ -1,21 +1,19 @@
-import puppeteer from "@cloudflare/puppeteer";
-import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
 import { secureHeaders } from "hono/secure-headers";
 import { getDB } from "./db";
-import { getOpenAI, summarizeWebPageWithStructuredJSON } from "./openai";
 import { summarizeRoute } from "./route/summarize";
 import { userRoute } from "./route/users";
-import { contents, favorites, users } from "./schema";
 
 export type AppBindings = {
 	DB: D1Database;
 	OPENAI_API_KEY: string;
 	BROWSER: Fetcher;
 };
-export const app = new Hono<{ Bindings: AppBindings }>();
+export const app = new Hono<{
+	Bindings: AppBindings;
+}>();
 
 app.use(logger());
 app.use(prettyJSON());
@@ -43,7 +41,7 @@ app.get("/contents/search", async (c) => {
 	if (!url) {
 		return c.json({ error: "url is required" }, 400);
 	}
-	const db = getDB(c);
+	const db = getDB(c.env);
 	const r = await db.query.contents.findFirst({
 		where: (contents, { eq }) => eq(contents.url, url),
 	});

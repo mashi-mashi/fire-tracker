@@ -2,14 +2,15 @@
   "scripts": {
     "dev": "wrangler dev src/index.ts",
     "deploy": "wrangler deploy --minify src/index.ts",
-    "db:migrate": "npx drizzle-kit generate:sqlite --schema=./src --out=./migrations"
+    "db:migrate": "npx drizzle-kit generate:sqlite --schema=./src --out=./migrations",
+    "db:seed": "wrangler d1 execute fire --local --file=./drizzle/migrations/",
+    "test": "vitest run"
   },
   "dependencies": {
     "drizzle-orm": "^0.30.7",
     "hono": "^4.2.3",
     "miniflare": "^3.20240419.0",
-    "openai": "^4.33.0",
-    "vitest": "^1.5.3"
+    "openai": "^4.33.0"
   },
   "devDependencies": {
     "@cloudflare/puppeteer": "^0.0.6",
@@ -17,6 +18,7 @@
     "drizzle-kit": "^0.20.17",
     "pnpm": "^8.15.6",
     "typescript": "^5.4.4",
+    "vitest": "^1.5.3",
     "wrangler": "^3.48.0"
   }
 }
