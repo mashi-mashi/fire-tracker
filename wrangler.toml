@@ -38,4 +38,5 @@ browser = { binding = "BROWSER" }
 binding = "DB"                                       # i.e. available in your Worker on env.DB
 database_name = "fire"
 database_id = "3a056337-d5fc-4e80-ab4f-6ea00b436336"
+preview_database_id = "DB"
 migrations_dir = "drizzle/migrations"
